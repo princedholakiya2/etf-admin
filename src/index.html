@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+
+<meta charset="utf-8">
+<title>ETF | Enter the Future</title>
+<base href="/">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/x-icon" href="./assets//media//logos//favicon.ico">
+<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:300,400,500,600,700" rel="stylesheet">
+<!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.8/themes/default/style.min.css" /> -->
+<link href="http://static.jstree.com/3.0.0-beta3/assets/dist/themes/default/style.min.css" />
+
+<!-- Splash Screen | Appears during application initialization process -->
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    
+    #splash-screen {
+        position: absolute;
+        z-index: 1000;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        background-color: #f2f3f8;
+    }
+    
+    #splash-screen img {
+        margin-left: calc(100vw - 100%);
+        margin-bottom: 30px;
+    }
+    
+    #splash-screen.hidden {
+        opacity: 0;
+        visibility: hidden;
+    }
+    
+    .splash-spinner {
+        animation: rotate 2s linear infinite;
+        margin-left: calc(100vw - 100%);
+        width: 50px;
+        height: 50px;
+    }
+    
+    .splash-spinner .path {
+        stroke: #5d78ff;
+        stroke-linecap: round;
+        animation: dash 1.5s ease-in-out infinite;
+    }
+    
+    @keyframes rotate {
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+    
+    @keyframes dash {
+        0% {
+            stroke-dasharray: 1, 150;
+            stroke-dashoffset: 0;
+        }
+        50% {
+            stroke-dasharray: 90, 150;
+            stroke-dashoffset: -35;
+        }
+        100% {
+            stroke-dasharray: 90, 150;
+            stroke-dashoffset: -124;
+        }
+    }
+</style>
+</head>
+
+<body root id="kt_body">
+    <div id="splash-screen">
+        <img src="./assets/media/logos/logo-dark.png" alt="Metronic logo" />
+        <svg class="splash-spinner" viewBox="0 0 50 50">
+      <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+    </svg>
+    </div>
+</body>
+
+
+<script>
+    // Copy this inside jstree(), to get the dnd functionality.
+    // {"core" : {"check_callback" : true}, "plugins" : [ "dnd" ]}
+    // See the previous ver of this fiddle, for diff. in function.
+    // Got this from:
+    // https://www.jstree.com/plugins/  -- See 'Drag & drop plugin' on this page.
+    // Adding "contextmenu" to pugins, with a comma, starts the fully working!  contextmenu, with cut-copy-paste working, by this single-word. See the /plugins page, for all plugins.
+    // $(function() {
+    $('#jstree').jstree({
+        "core": {
+            "check_callback": true
+        },
+        "plugins": ["dnd", "contextmenu"]
+    });
+    // });
+
+
+
+    // The below 2 Added by me, after reading:
+    // http://js-tutorial.com/jstree-provides-interactive-trees-497
+    // Also see, https://www.jstree.com/
+
+    $('#jstree').on("changed.jstree", function(e, data) {
+        console.log(data.selected);
+    });
+
+    $('button').on('click', function() {
+        $('#jstree').jstree(true).select_node('child_1');
+        $('#jstree').jstree(true).select_node('child_2');
+    });
+
+
+    // https://www.jstree.com/docs/events/
+    // The last line .jstree(); closed, by me. Otherwise, the dnd functionality stopped working & Selected, (the on-changed-event) kept working. But, I wanted both. As, the instance, was created, in the first 3lines of this total-code, so instance was not required, just the on-click event added below.
+    $('#jstree')
+        // listen for event
+        .on('changed.jstree', function(e, data) {
+            var i, j, r = [];
+            for (i = 0, j = data.selected.length; i < j; i++) {
+                r.push(data.instance.get_node(data.selected[i]).text);
+            }
+            $('#event_result').html('Selected: ' + r.join(', '));
+        });
+    // create the instance
+    //  .jstree();
+
+
+
+
+
+
+
+    // Taken from:
+    // http://js-tutorial.com/jstree-provides-interactive-trees-497
+    // read other, alternative formats, mentioned.
+
+    $('#using_json_2').jstree({
+        'core': {
+            'data': [{
+                "id": "ajson1",
+                "parent": "#",
+                "text": "Simple root node"
+            }, {
+                "id": "ajson2",
+                "parent": "#",
+                "text": "Root node 2"
+            }, {
+                "id": "ajson3",
+                "parent": "ajson2",
+                "text": "Child 1"
+            }, {
+                "id": "ajson4",
+                "parent": "ajson2",
+                "text": "Child 2"
+            }, ]
+        }
+    });
+</script>
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.8/jstree.min.js"></script> -->
+<script src="http://static.jstree.com/3.0.0-beta3/assets/dist/jstree.min.js"></script>
+<!-- <script src="https://preview.keenthemes.com/metronic/theme/html/demo1/dist/assets/plugins/custom/jstree/jstree.bundle.js?v=7.2.8"></script>
+<script src="https://preview.keenthemes.com/metronic/theme/html/demo1/dist/assets/js/pages/features/miscellaneous/treeview.js?v=7.2.8"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script> -->
+
+
+</html>

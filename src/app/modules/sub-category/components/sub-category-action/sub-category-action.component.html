@@ -1,0 +1,26 @@
+<form [formGroup]="subCategoryForm" (ngSubmit)="subCategoryFormSubmit()">
+    <input type="text" formControlName="categoryId"/>
+    <div formGroupName="childCategory">
+        <div formArrayName="child">
+            <button type="button" (click)="addRootChild()">+ add Root child</button>
+            <div *ngFor="let control of childFormArray.controls;let rootIndex=index">
+                <div [formGroupName]="rootIndex">
+                    <input type="text" formControlName="name"/>
+                    <input type="text" formControlName="description"/>
+                    <div formArrayName="children">
+                        <button type="button" (click)="addChildSub(rootIndex)">+ add Child Sub</button>
+                        <div *ngFor="let innerChild of getInnerChildFormArray(rootIndex).controls;let childIndex = index">
+
+                            <app-sub-category-form-handler [formGroup]="findFormGroup(rootIndex, childIndex)"></app-sub-category-form-handler>
+
+                            <button type="button" (click)="removeChildSub(rootIndex)">- remove Child Sub</button>
+                        </div>
+
+                    </div>
+                </div>
+                <button type="button" (click)="removeRoot(rootIndex)">Remove Current Root</button>
+            </div>
+        </div>
+    </div>
+    <button>Save</button>
+</form>

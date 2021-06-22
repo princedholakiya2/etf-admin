@@ -1,0 +1,39 @@
+<div class="row mb-5">
+    <div class="col-md-12">
+        <mat-card>
+            <h3>{{editMode? 'Update': 'Add'}} Category</h3>
+            <hr/>
+            <mat-card-content>
+                <form [formGroup]="categoryForm" (ngSubmit)="categoryFormSubmit()">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 col-lg-6">
+
+                            <mat-form-field class="example-full-width" >
+                                <input matInput placeholder="Enter Category Name" formControlName="name">
+                                    <mat-error *ngIf="controls.name?.errors?.required">
+                                        Category is <strong>required</strong>
+                                    </mat-error>
+                            </mat-form-field>
+
+                        </div>
+                        <div class="col-md-6 col-sm-12 col-lg-6">
+                            <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Enter Category Description" formControlName="description">
+                                <mat-error *ngIf="controls.description?.errors?.required">
+                                    Category Description is <strong>required</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 d-flex justify-content-center mt-2">
+                            <button mat-raised-button color="primary" [disabled]="isLoading">
+                                save <span *ngIf="isLoading" class="spinner spinner-primary ml-5" style="left: -10px;"></span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
